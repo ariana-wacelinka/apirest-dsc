@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AnnouncementService {private apiUrl = 'http://localhost:1337/announcements'; // Dirección del backend
+export class AnnouncementService {private apiUrl = 'http://localhost:1337/announcements';
 
   constructor(private http: HttpClient) {}
 
@@ -15,5 +15,9 @@ export class AnnouncementService {private apiUrl = 'http://localhost:1337/announ
 
   createAnnouncement(announcement: any): Observable<any> {
     return this.http.post(this.apiUrl, announcement);
+  }
+
+  existsAnnouncement(): Observable<any> {
+    return this.http.get(this.apiUrl);
   }
 }

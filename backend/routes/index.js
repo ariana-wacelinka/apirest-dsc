@@ -16,25 +16,35 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT
 })
+
 const getAllAnnouncements = (request, response) => {
     pool.query('SELECT * FROM announcements', (error, results) => {
         if (error) {
-            throw error
+            console.error('Error al obtener anuncios:', error);
+            response.status(500).json({ error: 'Error al obtener los anuncios' });
+        } else {
+            console.log('Anuncios obtenidos:', results.rows);
+            response.status(200).json(results.rows);
         }
-        response.status(200).json(results.rows)
-    })
-}
+    });
+};
+
 
 const createAnnouncement = (request, response) => {
-    const {title, description, date} = request.body
-    console.log("title:", title, "description:", description, "date:", date)
-    pool.query('INSERT INTO announcements (title,description,date) values ($1, $2, $3)', [title, description, date], (error, results) => {
+    const { title, description, date } = request.body;
+    console.log("Datos recibidos en el POST:", request.body);
+
+    pool.query('INSERT INTO announcements (title, description, date) VALUES ($1, $2, $3)', [title, description, date], (error, results) => {
         if (error) {
-            throw error
+            console.error('Error al crear anuncio:', error);
+            response.status(500).json({ error: 'Error al crear el anuncio' });
+        } else {
+            console.log('Anuncio creado:', { title, description, date });
+            response.status(201).json({ AnnouncementCreated: 'Ok' });
         }
-        response.status(201).json({AnnouncementCreated: 'Ok'})
-    })
-}
+    });
+};
+
 app.get('/', function (req, res) {
     res.json({Result: ''})
 });

@@ -1,1 +1,20 @@
-<p>announcements works!</p>
+<app-drawer>
+    <ng-container main-content>
+        <h1>Announcements</h1>
+        <mat-divider></mat-divider>
+        <div class="scrollable-section">
+        <mat-action-list>
+            @for (announcement of announcements; track announcement) {
+            <div class="announcements">
+                <p class="announcement-title">{{ announcement.title }}</p>
+            </div>
+            }
+            @if(announcements.length == 0 || noAnnouncements()) {
+                <div class="no-announcements">
+                <p>There aren't any announcements yet</p>
+                </div>
+            }
+        </mat-action-list>
+        </div>
+    </ng-container>
+  </app-drawer>
