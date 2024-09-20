@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    color: white;
 }
 
 .example-form {
@@ -14,18 +15,30 @@
     width: 100%;
 }
 
-#description{
+.description{
     margin-top: 20px;
 }
 
 #description-input{
     padding-bottom: 60px;
+    max-height: 100px;
+    min-height: 100px;
+}
+
+mat-hint {
+    color: white;
+    margin-left: -15px;
+}
+
+mat-card-title {
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
 }
 
 mat-card-content {
     display: flex;
     flex-direction: column;
-    justify-items: center;
     align-items: left;
 }
 
@@ -33,19 +46,31 @@ mat-card {
     border-radius: 20px;
     border: 0.001px solid rgb(18, 18, 18);
     padding: 20px;
-    width: 80%;
+    width: 60%;
     min-width: 550px;
     height: auto;
-    background-color: rgba(0, 0, 0, 0.872);
+    background-color: #0c0d0ffc;
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
+#boton{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: #0a0a0a;
+    justify-content: right;
+}
+
 button{
+    font-size: 20px;
+    height: 40px;
+    width: 130px;
     margin-top: 25px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
     border-radius: 10px;
-    justify-self: left;
+    justify-self: right;
+}
+
+button:hover {
+    background-color: #f6c90e;
+    color: white;
 }
