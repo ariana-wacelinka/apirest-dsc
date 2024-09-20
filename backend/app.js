@@ -2,13 +2,18 @@ require('dotenv').config();
 
 const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
+const cors = require('cors');
 const Pool = require('pg').Pool;
 const path = require('path');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+app.use(cors({
+    origin: 'http://localhost:4200',
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type'
+}));
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -51,6 +56,42 @@ const createAnnouncement = (request, response) => {
     });
 };
 
+const deleteAnnouncement = (request, response) => {
+    const { id } = request.body;
+    console.log("Announcement to delete:", id);
+
+    pool.query('DELETE FROM announcements WHERE id = $1', [id], (error, results) => {
+        if (error) {
+            console.error('Error al eliminar anuncio:', error);
+            response.status(500).json({ error: 'Error al eliminar el anuncio' });
+        } else if (results.rowCount === 0) {
+            response.status(404).json({ error: 'Anuncio no encontrado' });
+        } else {
+            response.status(200).json({ AnnouncementDeleted: 'Ok' });
+        }
+    });
+};
+
+const updateAnnouncement = (request, response) => {
+    const id = request.params.id;
+    const { title, description, date } = request.body;
+
+    console.log("Datos para actualizar anuncio:", id, title, description, date);
+
+    pool.query('UPDATE announcements SET title = $1, description = $2, date = $3 WHERE id = $4', [title, description, date, id], (error, results) => {
+        if (error) {
+            console.error('Error al actualizar anuncio:', error);
+            response.status(500).json({ error: 'Error al actualizar anuncio' });
+        } else if (results.rowCount === 0) {
+            response.status(404).json({ error: 'Anuncio no encontrado' });
+        } else {
+            response.status(200).json({ AnnouncementUpdated: 'Ok' });
+        }
+    });
+};
+
+app.put('/announcements/:id', updateAnnouncement);
+app.delete('/announcements', deleteAnnouncement);
 app.post('/announcements', createAnnouncement);
 app.get('/announcements', getAllAnnouncements);
 
