@@ -15,7 +15,8 @@ export class DrawerListComponent {
   constructor(private router: Router) {}
   appLinks = [
     { id: 1, name: 'Announcements', link:'/announcements'},
-    { id: 2, name: 'Create announcement', link:'/admin/announcement'}
+    { id: 2, name: 'Create announcement', link:'/create-announcement'},
+    { id: 3, name: '', link:'/update-announcement'}
   ];
   
 }

@@ -1,20 +1,31 @@
 <app-drawer>
     <ng-container main-content>
-        <h1>Announcements</h1>
-        <mat-divider></mat-divider>
-        <div class="scrollable-section">
-        <mat-action-list>
-            @for (announcement of announcements; track announcement) {
-            <div class="announcements">
-                <p class="announcement-title">{{ announcement.title }}</p>
-            </div>
-            }
-            @if(announcements.length == 0 || noAnnouncements()) {
-                <div class="no-announcements">
-                <p>There aren't any announcements yet</p>
+        <mat-card>
+            <mat-card-title>Announcements</mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div class="scrollable-section">
+                    <mat-action-list>
+                        @if(noAnnouncements()) {
+                        <div class="no-announcements">
+                            <p>There aren't any announcements yet</p>
+                        </div>
+                        } @else {
+                        @for (announcement of announcements; track announcement) {
+                        <mat-card>
+                            <mat-card-header>
+                                <p>{{ announcement.title }}</p>
+                                <mat-card-subtitle>{{ announcement.date }}</mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p>{{ announcement.description }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                        }
+                        }
+                    </mat-action-list>
                 </div>
-            }
-        </mat-action-list>
-        </div>
+            </mat-card-content>
+        </mat-card>
     </ng-container>
-  </app-drawer>
+</app-drawer>

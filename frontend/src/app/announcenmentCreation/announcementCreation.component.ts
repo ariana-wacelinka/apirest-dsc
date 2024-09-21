@@ -43,7 +43,7 @@ interface Announcement {
     MatCardModule,
     DrawerComponent
   ],
-  providers: [provideNativeDateAdapter()],  // Eliminamos provideHttpClient de aquí
+  providers: [provideNativeDateAdapter()],
   templateUrl: './announcementCreation.component.html',
   styleUrls: ['./announcementCreation.component.scss'],
 })
