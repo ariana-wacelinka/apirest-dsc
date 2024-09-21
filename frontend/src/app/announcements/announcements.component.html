@@ -20,6 +20,10 @@
                             <mat-card-content>
                                 <p>{{ announcement.description }}</p>
                             </mat-card-content>
+                            <div id="boton">
+                                <button mat-flat-button color="primary" type="submit"
+                                    (click)="deleteAnnouncement(announcement.id)">Delete</button>
+                            </div>
                         </mat-card>
                         }
                         }

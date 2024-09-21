@@ -1,5 +1,3 @@
-@use "../../variables.scss";
-
 app-drawer {
     background-color: transparent;
 }
@@ -22,8 +20,17 @@ mat-card-title {
     font-weight: bold;
 }
 
+mat-card-subtitle{
+    color: white;
+}
+
+mat-card-header p {
+    font-size: 24px;
+}
+
 mat-card-content {
     display: flex;
+    color: white;
     flex-direction: column;
     align-items: left;
 }
@@ -34,8 +41,29 @@ mat-card {
     padding: 20px;
     width: 60%;
     min-width: 650px;
-    ;
     height: auto;
     background-color: #0c0d0ffc;
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+#boton {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: #0a0a0a;
+    justify-content: right;
+}
+
+button {
+    font-size: 20px;
+    height: 40px;
+    width: 130px;
+    margin-top: 25px;
+    border-radius: 10px;
+    justify-self: right;
+}
+
+button:hover {
+    background-color: #770000;
+    color: white;
 }
