@@ -30,7 +30,8 @@ export class AnnouncementService {
   }
 
   deleteAnnouncement(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}`, { body: { id } });
+    const options = {body: { id }};
+    return this.http.delete(`${this.apiUrl}`, options);
   }
 
   updateAnnouncement(announcement: Announcement): Observable<Announcement> {

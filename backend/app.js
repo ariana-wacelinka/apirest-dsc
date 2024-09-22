@@ -64,7 +64,7 @@ const createAnnouncement = (request, response) => {
 };
 
 const deleteAnnouncement = (request, response) => {
-    const { id } = request.params; // Obtener el id de los parámetros de la URL, no del body
+    const { id } = request.body;
     console.log("Announcement to delete:", id);
 
     pool.query('DELETE FROM announcements WHERE id = $1', [id], (error, results) => {
@@ -110,11 +110,11 @@ const getAnnouncementById = (request, response) => {
     });
 };
 
+app.delete('/announcements', deleteAnnouncement);
 app.get('/announcements', getAllAnnouncements);
 app.post('/announcements', createAnnouncement);
 app.get('/announcements/:id', getAnnouncementById);
 app.put('/announcements/:id', updateAnnouncement);
-app.delete('/announcements', deleteAnnouncement);
 
 app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
