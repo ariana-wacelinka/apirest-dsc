@@ -1,32 +1,33 @@
 <app-drawer>
     <ng-container main-content>
-        <mat-card>
-            <mat-card-title>Announcements</mat-card-title>
+        <mat-card class="padre">
+            <mat-card-title class="principal">Announcements</mat-card-title>
             <mat-divider></mat-divider>
             <mat-card-content>
                 <div class="scrollable-section">
                     <mat-action-list>
-                        @if(noAnnouncements()) {
+                        @if(announcements.length === 0) {
                         <div class="no-announcements">
                             <p>There aren't any announcements yet</p>
                         </div>
                         } @else {
                         @for (announcement of announcements; track announcement) {
-                        <mat-card>
-                            <mat-card-header>
-                                <p>{{ announcement.title }}</p>
+                        <mat-card class="hija">
+                            <mat-card-header class="columna">
+                                <div class="fila">
+                                    <mat-card-title>{{ announcement.title }}</mat-card-title>
+                                    <div id="boton">
+                                    <button type="submit"
+                                        (click)="deleteAnnouncement(announcement.id)">Delete</button>
+                                    </div>
+                                    </div>
                                 <mat-card-subtitle>{{ announcement.date }}</mat-card-subtitle>
                             </mat-card-header>
                             <mat-card-content>
                                 <p>{{ announcement.description }}</p>
                             </mat-card-content>
-                            <div id="boton">
-                                <button mat-flat-button color="primary" type="submit"
-                                    (click)="deleteAnnouncement(announcement.id)">Delete</button>
-                            </div>
                         </mat-card>
-                        }
-                        }
+                        } }
                     </mat-action-list>
                 </div>
             </mat-card-content>

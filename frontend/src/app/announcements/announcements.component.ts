@@ -13,42 +13,39 @@ interface Announcement {
   description: string;
   date: string;
 }
+
 @Component({
   selector: 'app-announcements',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule,  MatDivider, MatActionList, DrawerComponent],
+  imports: [MatCardModule, MatButtonModule, MatDivider, MatActionList, DrawerComponent],
   providers: [provideNativeDateAdapter()],
   templateUrl: './announcements.component.html',
   styleUrl: './announcements.component.scss'
 })
 export class AnnouncementsComponent {
   announcements: any[] = [];
-  
-  constructor(private announcementService: AnnouncementService) { }
-  
-  ngOnInit() {
-    this.announcementService.getAnnouncements().subscribe((announcement: any) => {
-      this.announcements = announcement;
-    },
-    (error: any) => {
-      console.log(error);
-    }
-    );
-  }
 
-  noAnnouncements(): boolean {
-    let hasntAnnouncements = false;
-    this.announcementService.getAnnouncements().subscribe(() => {
-      if (this.announcements.length === 0) {
-        hasntAnnouncements = true;
+  constructor(private announcementService: AnnouncementService) { }
+
+  ngOnInit() {
+    this.announcementService.getAnnouncements().subscribe({
+      next: (announcements: any) => {
+        this.announcements = announcements;
+      },
+      error: (error: any) => {
+        console.error(error);
+      },
+      complete: () => {
+        console.log('Request completed');
       }
     });
-    return hasntAnnouncements;
-  }
+  }  
 
   deleteAnnouncement(id: any) {
     this.announcementService.deleteAnnouncement(id).subscribe(() => {
-      this.announcements = this.announcements.filter((announcement: any) => announcement.id !== id);
+      this.announcements = this.announcements.filter(
+        (announcement: any) => announcement.id !== id
+      );
     });
   }
 }

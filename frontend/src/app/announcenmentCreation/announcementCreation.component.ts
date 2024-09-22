@@ -64,22 +64,18 @@ export class AnnouncementCreationComponent {
   createAnnouncement() {
     if (this.form.valid) {
       const announcement: Announcement = this.form.value;
-      
-      this.announcementService.createAnnouncement(announcement).subscribe({
-        next: (response) => {
-          this.announcements.push(response);
-          console.log('Anuncio creado:', response);
-        },
-        error: (err) => {
-          console.error('Error al crear anuncio:', err);
-        },
-        complete: () => {
-          console.log('Proceso completado');
-        }
-      });
+      console.log('Datos enviados:', announcement);
+      this.announcementService.createAnnouncement(announcement).subscribe((announcement: any) => {
+        this.announcements.push(announcement);
+        alert('Anuncio creado');
+      },
+        (error: any) => {
+          console.error('Error al crear anuncio:', error);
+        });
     } else {
       console.error('Formulario inválido');
     }
   }
-  
+
+
 }

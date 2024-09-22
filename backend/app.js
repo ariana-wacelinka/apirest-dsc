@@ -44,17 +44,28 @@ const getAllAnnouncements = (request, response) => {
 
 const createAnnouncement = (request, response) => {
     const { title, description, date } = request.body;
+
+    // Validar que los campos no sean nulos
+    if (!title || !description || !date) {
+        return response.status(400).json({ error: 'Todos los campos son obligatorios' });
+    }
+
     console.log("Datos recibidos para crear anuncio:", title, description, date);
 
-    pool.query('INSERT INTO announcements (title, description, date) VALUES ($1, $2, $3)', [title, description, date], (error, results) => {
-        if (error) {
-            console.error('Error al crear anuncio:', error);
-            response.status(500).json({ error: 'Error al crear anuncio' });
-        } else {
-            response.status(201).json({ AnnouncementCreated: 'Ok' });
+    pool.query(
+        'INSERT INTO announcements (title, description, date) VALUES ($1, $2, $3)',
+        [title, description, date],
+        (error, results) => {
+            if (error) {
+                console.error('Error al crear anuncio:', error.message);
+                return response.status(500).json({ error: 'Error al crear anuncio: ' + error.message });
+            } else {
+                return response.status(201).json({ AnnouncementCreated: 'Ok' });
+            }
         }
-    });
+    );    
 };
+
 
 const deleteAnnouncement = (request, response) => {
     const { id } = request.body;
