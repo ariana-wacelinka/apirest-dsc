@@ -16,16 +16,18 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 interface Announcement {
-  id: any;
+  id: string;
   title: string;
   description: string;
   date: string;
 }
 
 @Component({
-  selector: 'app-shif-admin-screen',
+  selector: 'app-announcement-update',
   standalone: true,
   imports: [
     MatMenuModule,
@@ -44,16 +46,20 @@ interface Announcement {
     DrawerComponent
   ],
   providers: [provideNativeDateAdapter()],
-  templateUrl: './announcementCreation.component.html',
-  styleUrls: ['./announcementCreation.component.scss'],
+  templateUrl: './announcementUpdate.component.html',
+  styleUrls: ['./announcementUpdate.component.scss'],
 })
-export class AnnouncementCreationComponent {
+export class AnnouncementUpdateComponent {
+  encontrado = true;
+  id: string = '';
   readonly date = new FormControl(new Date());
-  readonly serializedDate = new FormControl(new Date().toLocaleDateString('es-AR'));
   form: FormGroup;
-  announcements: Announcement[] = [];
 
-  constructor(private announcementService: AnnouncementService) {
+  constructor(
+    private route: ActivatedRoute,
+    private announcementService: AnnouncementService,
+    private router: Router
+  ) {
     this.form = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
@@ -61,18 +67,48 @@ export class AnnouncementCreationComponent {
     });
   }
 
-  createAnnouncement() {
-    if (this.form.valid) {
-      const announcement: Announcement = this.form.value;
-      console.log('Datos enviados:', announcement);
-      this.announcementService.createAnnouncement(announcement).subscribe((announcements: any) => {
-        this.announcements.push(announcement);
-        alert('Anuncio creado');
+  ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id') || '';
+
+    if (this.id) {
+      this.announcementService.getAnnouncements().subscribe((announcement ) => {
+        const announcementToUpdate = announcement.find((announcement) => announcement.id === this.id);
+        if (announcementToUpdate) {
+          this.encontrado = true;
+          this.form.patchValue(announcementToUpdate);
+        } else {
+          this.encontrado = false;
+          console.error('No se ha encontrado el anuncio a modificar');
+        }
       });
+    }
+  }
+
+  updateAnnouncement() {
+    if (this.form.valid) {
+      const announcement: Announcement = {
+        ...this.form.value,
+        id: this.id,
+      };
+
+      this.announcementService.updateAnnouncement(announcement).subscribe({
+        next: (updatedAnnouncement: Announcement) => {
+          alert('Anuncio modificado correctamente');
+        },
+        error: (error: any) => {
+          console.error('Error al modificar anuncio:', error);
+        },
+        complete: () => {
+          console.log('Actualización completada');
+        }
+      });
+
     } else {
       console.error('Formulario inválido');
     }
   }
 
-
+  volver(){
+    this.router.navigate(['/home']);
+  }
 }

@@ -12,20 +12,25 @@ export interface Announcement {
 @Injectable({
   providedIn: 'root'
 })
-export class AnnouncementService {private apiUrl = 'http://localhost:1337/announcements';
+export class AnnouncementService {
+    private apiUrl = 'http://localhost:1337/announcements';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAnnouncements(): Observable<Announcement[]> {
     return this.http.get<Announcement[]>(this.apiUrl);
   }
-  
+
+  getAnnouncementById(id: string): Observable<Announcement> {
+    return this.http.get<Announcement>(`${this.apiUrl}/${id}`);
+  }
+
   createAnnouncement(announcement: Announcement): Observable<Announcement> {
     return this.http.post<Announcement>(this.apiUrl, announcement);
   }
 
-  deleteAnnouncement(id: number): Observable<Announcement> {
-    return this.http.delete<Announcement>(`${this.apiUrl}/${id}`);
+  deleteAnnouncement(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}`, { body: { id } });
   }
 
   updateAnnouncement(announcement: Announcement): Observable<Announcement> {

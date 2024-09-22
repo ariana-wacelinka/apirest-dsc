@@ -16,7 +16,9 @@ ng-container {
 }
 
 mat-card-subtitle {
-    color: rgba(255, 255, 255, 0.418);
+    color: rgba(255, 255, 255, 0.13);
+    font-style: italic;
+    margin-bottom: 5px;
 }
 
 .fila {
@@ -84,24 +86,41 @@ mat-divider {
 #boton {
     display: flex;
     color: #0a0a0a;
+    flex-direction: column;
+    margin-bottom: 20px;
+    margin-top: -35px;
+}
+
+.derecha{
+    display: flex;
     justify-content: right;
     width: 25%;
-    margin-right: 2.5%;
-    margin-bottom: 25px;
-    margin-top: -5px;
 }
 
 button {
-    background-color: rgb(255, 187, 0);
     font-size: 20px;
     height: 40px;
+    margin-bottom: 5px;
     width: 130px;
     text-align: center;
     border-radius: 10px;
 }
 
-button:hover {
-    background-color: #770000;
+.update {
+    background-color: rgb(255, 187, 0);
+}
+
+.delete:hover {
+    background-color: rgba(228, 42, 42, 0.795);
+}
+
+.delete {
+    background-color: #580000;
     color: white;
+    cursor: pointer;
+}
+
+.update:hover {
+    background-color: #ffdb3a;
     cursor: pointer;
 }

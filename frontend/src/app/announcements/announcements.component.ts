@@ -6,6 +6,7 @@ import { MatDivider } from '@angular/material/divider';
 import { MatActionList } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { Router } from '@angular/router';
 
 interface Announcement {
   id: any;
@@ -25,12 +26,17 @@ interface Announcement {
 export class AnnouncementsComponent {
   announcements: any[] = [];
 
-  constructor(private announcementService: AnnouncementService) { }
+  constructor(private announcementService: AnnouncementService, private router: Router) { }
 
   ngOnInit() {
     this.announcementService.getAnnouncements().subscribe({
       next: (announcements: any) => {
-        this.announcements = announcements;
+        this.announcements = announcements.map((announcements: any) => ({
+          id: announcements.id,
+          title: announcements.title,
+          description: announcements.description,
+          date: new Date(announcements.date).toLocaleDateString('es-AR')
+        }));
       },
       error: (error: any) => {
         console.error(error);
@@ -39,13 +45,17 @@ export class AnnouncementsComponent {
         console.log('Request completed');
       }
     });
-  }  
+  }
 
-  deleteAnnouncement(id: any) {
+  deleteAnnouncement(id: number) {
     this.announcementService.deleteAnnouncement(id).subscribe(() => {
       this.announcements = this.announcements.filter(
         (announcement: any) => announcement.id !== id
       );
     });
+  }
+
+  updateAnnouncement(id: any) {
+    this.router.navigate(['/update-announcement', id]);
   }
 }
