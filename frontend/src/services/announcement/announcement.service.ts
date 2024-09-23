@@ -21,10 +21,6 @@ export class AnnouncementService {
     return this.http.get<Announcement[]>(this.apiUrl);
   }
 
-  getAnnouncementById(id: string): Observable<Announcement> {
-    return this.http.get<Announcement>(`${this.apiUrl}/${id}`);
-  }
-
   createAnnouncement(announcement: Announcement): Observable<Announcement> {
     return this.http.post<Announcement>(this.apiUrl, announcement);
   }

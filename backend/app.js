@@ -95,25 +95,10 @@ const updateAnnouncement = (request, response) => {
     });
 };
 
-const getAnnouncementById = (request, response) => {
-    const id = request.params.id;
-
-    pool.query('SELECT * FROM announcements WHERE id = $1', [id], (error, results) => {
-        if (error) {
-            console.error('Error al obtener anuncio:', error);
-            response.status(500).json({ error: 'Error al obtener anuncio' });
-        } else if (results.rowCount === 0) {
-            response.status(404).json({ error: 'Anuncio no encontrado' });
-        } else {
-            response.status(200).json(results.rows[0]);
-        }
-    });
-};
 
 app.delete('/announcements', deleteAnnouncement);
 app.get('/announcements', getAllAnnouncements);
 app.post('/announcements', createAnnouncement);
-app.get('/announcements/:id', getAnnouncementById);
 app.put('/announcements/:id', updateAnnouncement);
 
 app.use(express.static(path.join(__dirname, 'frontend/dist')));
